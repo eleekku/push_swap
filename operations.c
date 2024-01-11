@@ -1,62 +1,82 @@
-# include "push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operations.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalmela <esalmela@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/04 13:17:04 by esalmela          #+#    #+#             */
+/*   Updated: 2024/01/05 13:17:07 by esalmela         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "push_swap.h"
 
-void	sa(t_stack **stack_a)
+void	ops_sort(t_stack **stack_a, t_stack **stack_b, int ticket)
 {
-	t_stack *node1;
-	t_stack *node2;
-	int temp;
-
-	node1 = *stack_a;
-	node2 = node1->next;
-	temp = node1->value;
-	node1->value = node2->value;
-	node2->value = temp;
-}
-
-void	pushb(t_stack **stack_a, t_stack **stack_b)
-{
-	t_stack	*node1;
-
-	if (*stack_a != NULL)
+	if (ticket == 1)
 	{
-		node1 = *stack_a;
-		*stack_a = node1->next;
-		node1->next = *stack_b;
-		*stack_b = node1;
+		swap(stack_a);
+		ft_printf("sa\n");
+	}
+	if (ticket == 2)
+	{
+		swap(stack_b);
+		ft_printf("sb\n");
+	}
+	if (ticket == 3)
+	{
+		swap(stack_a);
+		swap(stack_b);
+		ft_printf("ss\n");
+	}
+	if (ticket == 4)
+	{
+		push(stack_b, stack_a);
+		ft_printf("pa\n");
 	}
 }
 
-void	rotate(t_stack **stack_a)
+void	ops_sort2(t_stack **stack_a, t_stack **stack_b, int ticket)
 {
-	t_stack	*firstnode;
-	t_stack	*secondnode;
-	t_stack	*lastnode;
-
-	firstnode = *stack_a;
-	secondnode = firstnode->next;
-	lastnode = *stack_a;
-
-	while (lastnode->next != NULL)
-		lastnode = lastnode->next;
-	*stack_a = secondnode;
-	lastnode->next = firstnode;
-	firstnode->next = NULL; 
+	if (ticket == 5)
+	{
+		push(stack_a, stack_b);
+		ft_printf("pb\n");
+	}
+	if (ticket == 6)
+	{
+		rotate(stack_a);
+		ft_printf("ra\n");
+	}
+	if (ticket == 7)
+	{
+		rotate(stack_b);
+		ft_printf("rb\n");
+	}
+	if (ticket == 8)
+	{
+		rotate(stack_a);
+		rotate(stack_b);
+		ft_printf("rr\n");
+	}
 }
 
-void	reverserotate(t_stack **stack_a)
+void	ops_sort3(t_stack **stack_a, t_stack **stack_b, int ticket)
 {
-	t_stack	*firstnode;
-	t_stack	*secondlastnode;
-	t_stack	*lastnode;
-
-	lastnode = *stack_a;
-	firstnode = *stack_a;
-	while (lastnode->next != NULL)
+	if (ticket == 9)
 	{
-		secondlastnode = lastnode;
-		lastnode = lastnode->next;
+		reverserotate(stack_a);
+		ft_printf("rra\n");
 	}
-	*stack_a = lastnode;
-	lastnode->next = firstnode;
-	secondlastnode->next = NULL;
+	if (ticket == 10)
+	{
+		reverserotate(stack_b);
+		ft_printf("rrb\n");
+	}
+	if (ticket == 11)
+	{
+		reverserotate(stack_a);
+		reverserotate(stack_b);
+		ft_printf("rrr\n");
+	}
 }
