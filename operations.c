@@ -6,7 +6,7 @@
 /*   By: esalmela <esalmela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 13:17:04 by esalmela          #+#    #+#             */
-/*   Updated: 2024/01/05 13:17:07 by esalmela         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:02:44 by esalmela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -31,8 +31,8 @@ void	ops_sort(t_stack **stack_a, t_stack **stack_b, int ticket)
 	}
 	if (ticket == 4)
 	{
-		push(stack_b, stack_a);
-		ft_printf("pa\n");
+		if (push(stack_b, stack_a) != 0)
+			ft_printf("pa\n");
 	}
 }
 
@@ -40,18 +40,18 @@ void	ops_sort2(t_stack **stack_a, t_stack **stack_b, int ticket)
 {
 	if (ticket == 5)
 	{
-		push(stack_a, stack_b);
-		ft_printf("pb\n");
+		if (push(stack_a, stack_b) != 0)
+			ft_printf("pb\n");
 	}
 	if (ticket == 6)
 	{
-		rotate(stack_a);
-		ft_printf("ra\n");
+		if (rotate(stack_a) != 0)
+			ft_printf("ra\n");
 	}
 	if (ticket == 7)
 	{
-		rotate(stack_b);
-		ft_printf("rb\n");
+		if (rotate(stack_b) != 0)
+			ft_printf("rb\n");
 	}
 	if (ticket == 8)
 	{

@@ -6,7 +6,7 @@
 /*   By: esalmela <esalmela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:34:19 by esalmela          #+#    #+#             */
-/*   Updated: 2024/01/05 13:33:20 by esalmela         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:03:49 by esalmela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	update_index(t_stack **stack_a)
 
 	i = 1;
 	current = *stack_a;
-		while (current != NULL)
+	while (current != NULL)
 	{
 		current->index = i;
 		current = current->next;
 		i++;
-		}
+	}
 }
 
 void	swap(t_stack **stack_a)
@@ -40,9 +40,10 @@ void	swap(t_stack **stack_a)
 	node1->value = node2->value;
 	node1->index = node2->index;
 	node2->value = temp;
+	update_index(stack_a);
 }
 
-void	push(t_stack **stack_a, t_stack **stack_b)
+int	push(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*node1;
 
@@ -52,12 +53,14 @@ void	push(t_stack **stack_a, t_stack **stack_b)
 		*stack_a = node1->next;
 		node1->next = *stack_b;
 		*stack_b = node1;
+		update_index(stack_a);
+		update_index(stack_b);
+		return (1);
 	}
-	update_index(stack_a);
-	update_index(stack_b);
+	return (0);
 }
 
-void	rotate(t_stack **stack_a)
+int	rotate(t_stack **stack_a)
 {
 	t_stack	*firstnode;
 	t_stack	*secondnode;
@@ -65,6 +68,8 @@ void	rotate(t_stack **stack_a)
 
 	firstnode = *stack_a;
 	secondnode = firstnode->next;
+	if (!secondnode || !firstnode)
+		return (0);
 	lastnode = *stack_a;
 	while (lastnode->next != NULL)
 		lastnode = lastnode->next;
@@ -72,6 +77,7 @@ void	rotate(t_stack **stack_a)
 	lastnode->next = firstnode;
 	firstnode->next = NULL;
 	update_index(stack_a);
+	return (1);
 }
 
 void	reverserotate(t_stack **stack_a)

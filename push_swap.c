@@ -6,84 +6,104 @@
 /*   By: esalmela <esalmela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:06:00 by esalmela          #+#    #+#             */
-/*   Updated: 2023/12/19 11:44:08 by esalmela         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:00:48 by esalmela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-# include "push_swap.h"
-#include <stdio.h>
+#include "push_swap.h"
+
+void	free_all(t_stack **stack_a, t_stack **stack_b)
+{
+	ft_lstclear(*stack_a);
+	if (stack_b)
+		ft_lstclear(*stack_b);
+}
+
+void	smallesttob(t_stack **a, t_stack **b)
+{
+	int		i;
+	int		j;
+	t_stack	*current;
+
+	current = *a;
+	i = get_lowestint(a);
+	while (current->seque != i)
+		current = current->next;
+	if (current->index > 3)
+	{
+		j = (ft_lstsize(*a) - current->index);
+		while (j-- >= 0)
+			ops_sort3(a, b, 9);
+		ops_sort2(a, b, 5);
+	}
+	else
+	{
+		j = current->index;
+		while (j-- > 1)
+			ops_sort2(a, b, 6);
+		ops_sort2(a, b, 5);
+	}
+}
+
+void	algorithmsort(t_stack **a, t_stack **b)
+{
+	if (ft_lstsize(*a) < 4)
+	{
+		algo_for_three(a, b);
+		ops_sort(a, b, 4);
+		ops_sort(a, b, 4);
+		sorting(a, b);
+		free_all(a, b);
+		return ;
+	}
+	else if (ft_lstsize(*a) > 3 && ft_lstsize(*a) < 6)
+		smallesttob(a, b);
+	else
+		find_number(a, b);
+	algorithmsort(a, b);
+}
+
+void	sorting(t_stack **stack_a, t_stack **stack_b)
+{
+	t_stack	*current_a;
+	t_stack	*current_b;
+	int		i;
+
+	i = ft_lstsize(*stack_b) + 1;
+	while (i-- > 0)
+	{
+		current_b = *stack_b;
+		current_a = *stack_a;
+		if (*stack_a && current_b && current_a->seque - 1 != current_b->seque)
+			rotation(stack_a, stack_b, i);
+		ops_sort(stack_a, stack_b, 4);
+	}
+}
 
 int	main(int argc, char **argv)
 {
-	int		index;
-	int		flag;
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-
-	int i;
+	int			flag;
+	t_stack		*stack_a;
+	t_stack		*stack_b;
+	static char	**arg;
 
 	flag = 1;
 	if (argc < 2)
 		return (0);
 	if (argc == 2)
-		argv = split_arguments(argv[1], &flag);
-	if (check_args(argv, flag) == 0)
+		arg = split_arguments(argv[1], &flag);
+	else
+		arg = argv;
+	if (check_args(arg, flag) == 0)
 	{
-		ft_printf("Error\n");
-		return (0);
+		ft_putendl_fd("Error", 2);
+		exit (0);
 	}
-	index = 1;
-	while (argv[flag] != '\0')
-		ft_lstadd_back(&stack_a, (ft_lstnew(ft_atoi(argv[flag++]), index++)));
+	args_to_list(&stack_a, arg, flag);
 	if (check_correct(&stack_a) == 1)
 	{
-		ft_printf("allready in correct order\n");
+		free_all(&stack_a, &stack_b);
 		return (0);
 	}
-	//if (index <= 4)
-	//algo_for_three(&stack_a, &stack_b);
-//	else if (index > 4 && index < 7)
-//		algo_for_five(&stack_a, &stack_b);
-//	else
-//	t_stack *median = get_median(&stack_a);
-//	ft_printf("%d\n", median->value);
- 	algorithm(&stack_a, &stack_b);
-	
- 	while (stack_a != NULL)
-	{
-    ft_printf("value: %d, index:%d sequence:%d\n", stack_a->value, stack_a->index, stack_a->seque);
-		free(stack_a);
-		stack_a = stack_a->next;
-	} 
-	ft_printf("STACKB\n");
- 	while (stack_b != NULL)
-	{
-    ft_printf("value: %d, index:%d sequence:%d\n", stack_b->value, stack_b->index, stack_b->seque);
-		free(stack_b);
-		stack_b = stack_b->next;
-	}  
+	algorithmsort(&stack_a, &stack_b);
+	return (0);
 }
-
-
-	/* i = get_median(&stack_a);
-	ft_printf("%d\n", i); */
-
-
- /* 	while (stack_a != NULL)
-	{
-        ft_printf("ft_lstnew: %d, index:%d\n", stack_a->value, stack_a->index);
-		free(stack_a);
-		stack_a = stack_a->next;
-	} 
-	//sa(&stack_a);
-	rotate(&stack_a);
-	while (stack_a != NULL)
-	{
-        ft_printf("ft_lstnew: %d, index:%d\n", stack_a->value, stack_a->index);
-		free(stack_a);
-		stack_a = stack_a->next;
-	}
-	//ft_printf("ft_lstnew: %d, index:%d\n", stack_a->value, stack_a->index);
-	//stack_a = stack_a->next;
-	//ft_printf("ft_lstnew: %d, index:%d\n", stack_a->value, stack_a->index);
-} */
-
